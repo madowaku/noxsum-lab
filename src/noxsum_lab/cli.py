@@ -9,6 +9,7 @@ from jsonschema import Draft202012Validator
 
 from .generator import generate_levels
 from .import_grant import import_grant_pack
+from .miner import mine_candidates, write_mining_outputs
 from .solver import validate_campaign
 
 
@@ -35,9 +36,11 @@ def _load_validator(schema_path: Path) -> Draft202012Validator:
 def _iter_levels(data: Any) -> list[dict[str, Any]]:
     if isinstance(data, list):
         return data
+    if isinstance(data, dict) and data.get("schema_version") == "noxsum.mine.v0.2":
+        return list(data.get("levels", []))
     if isinstance(data, dict):
         return [data]
-    raise ValueError("Level JSON must be an object or an array of objects.")
+    raise ValueError("Level JSON must be an object, array, or mining manifest.")
 
 
 def cmd_validate(args: argparse.Namespace) -> int:
@@ -146,6 +149,29 @@ def cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_mine(args: argparse.Namespace) -> int:
+    manifest = mine_candidates(
+        seed=args.seed,
+        count=args.count,
+    )
+    write_mining_outputs(
+        manifest,
+        json_path=Path(args.output),
+        csv_path=Path(args.csv),
+        report_path=Path(args.report),
+        top_n=args.top,
+    )
+    print(
+        f"Mined {manifest['raw_candidates']} raw exact-unique candidates; "
+        f"{manifest['after_symmetry_dedupe']} remain after D4 symmetry dedupe "
+        f"({manifest['symmetry_duplicates_removed']} removed)."
+    )
+    print(f"JSON: {args.output}")
+    print(f"CSV: {args.csv}")
+    print(f"Report: {args.report}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="noxsum-lab")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -197,6 +223,18 @@ def build_parser() -> argparse.ArgumentParser:
         help="five board-mask rows separated by /",
     )
     generate.set_defaults(func=cmd_generate)
+
+    mine = sub.add_parser(
+        "mine",
+        help="Mine, symmetry-dedupe, analyze, and rank candidate puzzles",
+    )
+    mine.add_argument("--seed", type=int, default=20260925)
+    mine.add_argument("--count", type=int, default=10_000)
+    mine.add_argument("--output", default="generated/mining_v0_2.json")
+    mine.add_argument("--csv", default="generated/mining_v0_2_ranked.csv")
+    mine.add_argument("--report", default="reports/MINING_v0_2.md")
+    mine.add_argument("--top", type=int, default=25)
+    mine.set_defaults(func=cmd_mine)
 
     return parser
 
