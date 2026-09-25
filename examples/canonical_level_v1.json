@@ -1,0 +1,60 @@
+[
+  {
+    "schema_version": "noxsum.level.v1",
+    "id": "NX-EXAMPLE-001",
+    "title": "FIRST SHADOW",
+    "source": {
+      "kind": "imported",
+      "source_id": "GR01",
+      "parent_id": null,
+      "repo": "madowaku/shadow-sum",
+      "ref": "feature/grant20-v0.3",
+      "path": "data/grant20_v0_3.json",
+      "seed": null
+    },
+    "board": {
+      "width": 5,
+      "height": 5,
+      "mask": null
+    },
+    "inventory": {
+      "POST": 1
+    },
+    "solution": {
+      "placements": [
+        {
+          "piece": "POST",
+          "cell": "C3",
+          "orientation": null
+        }
+      ],
+      "lights": []
+    },
+    "mechanics": {
+      "installed_lights": ["TOP", "LEFT", "RIGHT"]
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": ["TOP", "LEFT", "RIGHT"],
+        "target": {
+          "B3": 1,
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "annotations": {
+      "hints": []
+    },
+    "metrics": {
+      "expected_states": 25
+    },
+    "curation": {
+      "bucket": "UNREVIEWED",
+      "target": "NONE",
+      "tags": [],
+      "notes": ""
+    }
+  }
+]
