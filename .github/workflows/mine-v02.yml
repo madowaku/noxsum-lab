@@ -1,5 +1,7 @@
 name: Generator v0.2 Full Mining
 
+# Balanced profile redistribution enabled.
+
 on:
   workflow_dispatch:
   push:
