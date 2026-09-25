@@ -37,3 +37,12 @@ jobs:
         run: |
           noxsum-lab generate /tmp/noxsum-generated.json --seed 20260925 --count 12 --normal 3
           noxsum-lab validate /tmp/noxsum-generated.json
+
+      - name: Mine v0.2 smoke sample
+        run: |
+          noxsum-lab mine --seed 20260925 --count 64 \
+            --output /tmp/mining.json \
+            --csv /tmp/mining.csv \
+            --report /tmp/mining.md \
+            --top 10
+          noxsum-lab validate /tmp/mining.json
