@@ -10,6 +10,7 @@ from jsonschema import Draft202012Validator
 from .generator import generate_levels
 from .import_grant import import_grant_pack
 from .miner import mine_candidates, write_mining_outputs
+from .playtest import build_blind_pack, write_blind_pack
 from .solver import validate_campaign
 
 
@@ -172,6 +173,22 @@ def cmd_mine(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_blind_pack(args: argparse.Namespace) -> int:
+    manifest = _read_json(Path(args.input))
+    if not isinstance(manifest, dict) or manifest.get("schema_version") != "noxsum.mine.v0.2":
+        raise ValueError("blind-pack input must be a noxsum.mine.v0.2 manifest")
+
+    pack = build_blind_pack(
+        manifest,
+        shuffle_seed=args.seed,
+    )
+    write_blind_pack(pack, Path(args.output_dir))
+    print(
+        f"Built {len(pack['public_levels'])}-stage blind pack -> {args.output_dir}"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="noxsum-lab")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -235,6 +252,15 @@ def build_parser() -> argparse.ArgumentParser:
     mine.add_argument("--report", default="reports/MINING_v0_2.md")
     mine.add_argument("--top", type=int, default=25)
     mine.set_defaults(func=cmd_mine)
+
+    blind = sub.add_parser(
+        "blind-pack",
+        help="Build FLOW20 + AHA20 blind calibration pack from a mining manifest",
+    )
+    blind.add_argument("input")
+    blind.add_argument("--output-dir", default="playtests/blind_v0_1")
+    blind.add_argument("--seed", type=int, default=20260925)
+    blind.set_defaults(func=cmd_blind_pack)
 
     return parser
 
