@@ -32,6 +32,23 @@ NOXSUM の問題を **生成・検算・分析・選抜**するための研究�
 - Steam / Mobile campaign
 - 採用済み level pack のみ
 
+## Current reference campaign
+
+Grant 最終版は **GR01〜GR36**。
+
+Lab には `fixtures/grant36_v0_5.json` としてスナップショットし、CIで36問すべてを独立Solverから全探索して一意解と解答メタデータを再検算します。
+
+現行ルールとして扱うもの:
+
+- Normal Post
+- Tall Post
+- rotatable Plate
+- TOP / LEFT / RIGHT / BOTTOM lights
+- free light selection
+- fixed / movable shutter
+- FOG
+- boardShape socket mask
+
 ## v0.1 pipeline
 
 ```text
@@ -52,6 +69,35 @@ Curate
 Export → Steam / Mobile
 ```
 
+## Commands
+
+```bash
+python -m pip install -e .
+
+# Grant最終36問を独立再検算
+noxsum-lab revalidate-grant fixtures/grant36_v0_5.json
+
+# seed付きGenerator v0.1
+noxsum-lab generate generated/sample.json \
+  --seed 20260925 \
+  --count 20 \
+  --normal 3
+
+# Tall / Plate 混成も生成可能
+noxsum-lab generate generated/mixed.json \
+  --seed 20260925 \
+  --count 20 \
+  --normal 1 \
+  --tall 1 \
+  --plate 1 \
+  --lights TOP,LEFT,RIGHT,BOTTOM
+
+# canonical schema検証
+noxsum-lab validate generated/sample.json
+```
+
+Generator v0.1 は「解答配置をランダムに置いて終わり」ではなく、指定profileの合法世界を列挙し、**同じ観測を作る世界が1つだけの target** のみを候補として出力します。同じseed + profileなら同じ候補列になります。
+
 ## Curation principle
 
 難しい問題がそのまま Steam 向けとは限りません。
@@ -62,12 +108,12 @@ Export → Steam / Mobile
 
 ## Compatibility
 
-初期段階では現在の NOXSUM / Grant データ形式を importer で読み込み、Lab 内部では拡張可能な canonical level 形式へ変換します。
+現在の NOXSUM / Grant データ形式は Solver が直接検算でき、importer から Lab の canonical level 形式へ変換できます。
 
-今後の SIT / STAND / WARK、FIXED NOX、SWITCH、BLOCKER、MIRROR なども canonical schema を拡張して扱います。
+今後の SIT / STAND / WARK、FIXED NOX、SWITCH、BLOCKER、MIRROR なども canonical schema と rules layer を拡張して扱います。
 
 ## Status
 
-**v0.1 bootstrap**
+**v0.1: rules + solver + seeded generator**
 
-最初の到達点は「既存問題を import → 検算 → 特徴量を付与 → FLOW/AHA 候補として export」できることです。
+次の主戦場は、生成候補から「気持ちいい」と「なるほど」を掘り分ける FLOW / AHA scoring です。
