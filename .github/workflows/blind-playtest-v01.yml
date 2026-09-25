@@ -1,0 +1,52 @@
+name: Blind Playtest Pack v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/blind-playtest-v01.yml"
+      - "src/noxsum_lab/playtest.py"
+      - "src/noxsum_lab/cli.py"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: python -m pip install -e .
+
+      - name: Mine source pool
+        run: |
+          noxsum-lab mine \
+            --seed 20260925 \
+            --count 10000 \
+            --output /tmp/mining_v0_2.json \
+            --csv /tmp/mining_v0_2_ranked.csv \
+            --report /tmp/MINING_v0_2.md \
+            --top 50
+
+      - name: Build blind FLOW20 + AHA20 pack
+        run: |
+          noxsum-lab blind-pack /tmp/mining_v0_2.json \
+            --output-dir playtest-output \
+            --seed 20260925
+
+      - name: Validate canonical blind pack
+        run: noxsum-lab validate playtest-output/blind_pack_canonical.json
+
+      - name: Revalidate game-ready 40-stage pack
+        run: noxsum-lab revalidate-grant playtest-output/blind_pack_game.json
+
+      - name: Upload playtest pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOXSUM-FLOW20-AHA20-BLIND-v0.1
+          path: playtest-output/
+          retention-days: 30
