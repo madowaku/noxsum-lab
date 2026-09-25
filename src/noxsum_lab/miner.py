@@ -367,7 +367,8 @@ def mine_candidates(
     aha_rank = {index: rank for rank, index in enumerate(aha_order, 1)}
 
     levels: list[dict[str, Any]] = []
-    for output_serial, record in enumerate(deduped, 1):
+    for record_index, record in enumerate(deduped):
+        output_serial = record_index + 1
         level = _build_level(
             seed=seed,
             serial=output_serial,
@@ -384,8 +385,8 @@ def mine_candidates(
             tags=record["tags"],
             canonical_hash=record["canonical_hash"],
         )
-        level["metrics"]["flow_rank"] = flow_rank[deduped.index(record)]
-        level["metrics"]["aha_rank"] = aha_rank[deduped.index(record)]
+        level["metrics"]["flow_rank"] = flow_rank[record_index]
+        level["metrics"]["aha_rank"] = aha_rank[record_index]
         levels.append(level)
 
     # Sort output by stable ID / canonical hash rather than score. Rankings are
