@@ -1,0 +1,42 @@
+name: Generator v0.2 Full Mining
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/mine-v02.yml"
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: python -m pip install -e .
+
+      - name: Mine 10,000 exact-unique candidates
+        run: |
+          mkdir -p mining-output
+          noxsum-lab mine \
+            --seed 20260925 \
+            --count 10000 \
+            --output mining-output/mining_v0_2.json \
+            --csv mining-output/mining_v0_2_ranked.csv \
+            --report mining-output/MINING_v0_2.md \
+            --top 50
+
+      - name: Validate mined canonical levels
+        run: noxsum-lab validate mining-output/mining_v0_2.json
+
+      - name: Upload mining artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: noxsum-mining-v0.2-seed-20260925
+          path: mining-output/
+          retention-days: 30
