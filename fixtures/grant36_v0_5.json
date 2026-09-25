@@ -1,0 +1,2548 @@
+[
+  {
+    "id": "GR01",
+    "title": "FIRST SHADOW",
+    "posts": 1,
+    "solution": [
+      "C3"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "B3": 1,
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 25,
+    "hints": [
+      "One Post explains all three marks.",
+      "Trace the three shadows back toward a common socket.",
+      "Their common origin is the center of the three directions."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR02",
+    "title": "OVERLAP",
+    "posts": 2,
+    "solution": [
+      "B2",
+      "C3"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "A2": 1,
+          "C2": 1,
+          "B3": 2,
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 300,
+    "hints": [
+      "A darker mark can have more than one cause.",
+      "Ask which two Posts could both contribute to B3.",
+      "Use the single shadows to pin those Posts down."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR03",
+    "title": "EMPTY SPEAKS",
+    "posts": 3,
+    "solution": [
+      "C2",
+      "B3",
+      "D3"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "B2": 1,
+          "D2": 1,
+          "A3": 1,
+          "C3": 3,
+          "E3": 1,
+          "B4": 1,
+          "D4": 1
+        }
+      }
+    ],
+    "expected_states": 2300,
+    "hints": [
+      "Clear glass is evidence too.",
+      "A candidate Post must explain its shadows without creating new ones.",
+      "The dark center needs three causes, but the empty cells reject the wrong trio."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR04",
+    "title": "FOURTH LIGHT",
+    "posts": 1,
+    "solution": [
+      "C3"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "C2": 1,
+          "B3": 1,
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 25,
+    "hints": [
+      "Something changed below the board.",
+      "The Post has not learned a new rule. The apparatus has.",
+      "Read the fourth shadow back toward its source."
+    ],
+    "hint_surface": "light"
+  },
+  {
+    "id": "GR05",
+    "title": "TWO SOURCES",
+    "posts": 1,
+    "fixed_posts": [
+      "C3"
+    ],
+    "free_light_selection": true,
+    "active_light_count": 2,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C3"
+    ],
+    "solution_lights": [
+      "TOP",
+      "LEFT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 6,
+    "hints": [
+      "The Post is already known. Reconstruct the illumination.",
+      "Each target mark points away from the source that made it.",
+      "Choose only the sources needed by these two directions."
+    ],
+    "hint_surface": "light"
+  },
+  {
+    "id": "GR06",
+    "title": "LIGHT & POST",
+    "posts": 2,
+    "free_light_selection": true,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B3",
+      "D3"
+    ],
+    "solution_lights": [
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A3": 1,
+          "C3": 2,
+          "E3": 1
+        }
+      }
+    ],
+    "expected_states": 4500,
+    "hints": [
+      "Position and illumination can be solved together.",
+      "The double mark in the middle needs two opposing causes.",
+      "The absence of vertical traces constrains the lamps as strongly as the Posts."
+    ],
+    "hint_surface": "light"
+  },
+  {
+    "id": "GR07",
+    "title": "SHUTTER",
+    "posts": 2,
+    "fixed_shutters": [
+      2
+    ],
+    "solution": [
+      "C3",
+      "E2"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "D2": 1,
+          "B3": 1,
+          "D3": 1,
+          "E3": 1
+        }
+      }
+    ],
+    "expected_states": 300,
+    "hints": [
+      "The top lamp is lit, but one column behaves differently.",
+      "The metal plate interrupts only one light path.",
+      "Sideways shadows still survive in the blocked column."
+    ],
+    "hint_surface": "shutter_slot"
+  },
+  {
+    "id": "GR08",
+    "title": "TWO UNKNOWNS",
+    "posts": 2,
+    "movable_shutter": true,
+    "solution": [
+      "C2",
+      "D4"
+    ],
+    "solution_shutter": 2,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "B2": 1,
+          "D2": 1,
+          "C4": 1,
+          "E4": 1,
+          "D5": 1
+        }
+      }
+    ],
+    "expected_states": 1500,
+    "hints": [
+      "First separate object evidence from path evidence.",
+      "The side shadows can locate Posts without using the shutter.",
+      "Then move the plate to explain the missing downward trace."
+    ],
+    "hint_surface": "shutter_slot"
+  },
+  {
+    "id": "GR09",
+    "title": "LONG REACH",
+    "posts": 1,
+    "tall": true,
+    "solution": [
+      "C3"
+    ],
+    "solution_tall": [
+      "C3"
+    ],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "A3": 1,
+          "B3": 1,
+          "D3": 1,
+          "E3": 1,
+          "C4": 1,
+          "C5": 1
+        }
+      }
+    ],
+    "expected_states": 25,
+    "hints": [
+      "The object itself has changed.",
+      "Follow one direction beyond the nearest cell.",
+      "Height is written into the reach of the shadow."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR10",
+    "title": "MIXED HEIGHTS",
+    "posts": 2,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 0,
+    "solution": [
+      "C3",
+      "D4"
+    ],
+    "solution_tall": [
+      "C3"
+    ],
+    "solution_post_types": {
+      "C3": "tall",
+      "D4": "normal"
+    },
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT"
+        ],
+        "target": {
+          "A3": 1,
+          "B3": 1,
+          "D3": 1,
+          "E3": 1,
+          "C4": 2,
+          "E4": 1,
+          "C5": 1,
+          "D5": 1
+        }
+      }
+    ],
+    "expected_states": 600,
+    "hints": [
+      "Two objects can answer the same light differently.",
+      "Find which object must reach the far cells.",
+      "The darker C4 is shared by the tall and normal objects."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR11",
+    "title": "TURN THE PLATE",
+    "posts": 1,
+    "fixed_posts": [
+      "C3"
+    ],
+    "fixed_post_types": {
+      "C3": "plate_v"
+    },
+    "rotatable_plate": true,
+    "solution": [
+      "C3"
+    ],
+    "solution_post_types": {
+      "C3": "plate_h"
+    },
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "C2": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 2,
+    "hints": [
+      "The object can stay put and still change its answer.",
+      "Its broad face and thin edge do not meet light the same way.",
+      "Rotate the plate and watch which shadow axis survives."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR12",
+    "title": "CROSS SECTION",
+    "posts": 2,
+    "normal_posts": 1,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "rotatable_plate": true,
+    "solution": [
+      "C3",
+      "D4"
+    ],
+    "solution_post_types": {
+      "C3": "normal",
+      "D4": "plate_v"
+    },
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "C2": 1,
+          "B3": 1,
+          "D3": 1,
+          "C4": 2,
+          "E4": 1
+        }
+      }
+    ],
+    "expected_states": 1200,
+    "hints": [
+      "One object answers every direction. One answers only two.",
+      "The full cross locates the ordinary Post.",
+      "Use the remaining pair and the overlap to orient the plate."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR13",
+    "title": "EDGE OR DARK?",
+    "posts": 2,
+    "normal_posts": 1,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "fixed_posts": [
+      "C3"
+    ],
+    "fixed_post_types": {
+      "C3": "normal"
+    },
+    "rotatable_plate": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C3",
+      "C1"
+    ],
+    "solution_post_types": {
+      "C3": "normal",
+      "C1": "plate_v"
+    },
+    "solution_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "B1": 1,
+          "D1": 1,
+          "B3": 1,
+          "D3": 1,
+          "C4": 1
+        }
+      }
+    ],
+    "expected_states": 192,
+    "hints": [
+      "Not every missing shadow has the same cause.",
+      "Use the fixed round Post to identify which lamps are truly on.",
+      "Then let the plate's thin edge explain the remaining absence."
+    ],
+    "hint_surface": "cause"
+  },
+  {
+    "id": "GR14",
+    "title": "LONG & LIT",
+    "posts": 2,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 0,
+    "free_light_selection": true,
+    "active_light_count": 2,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C3",
+      "B3"
+    ],
+    "solution_tall": [
+      "C3"
+    ],
+    "solution_post_types": {
+      "C3": "tall",
+      "B3": "normal"
+    },
+    "solution_lights": [
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A3": 2,
+          "B3": 1,
+          "C3": 1,
+          "D3": 1,
+          "E3": 1
+        }
+      }
+    ],
+    "expected_states": 3600,
+    "hints": [
+      "The light pair and the object heights are entangled.",
+      "The two-cell reach must belong to the Tall Post.",
+      "Once height is fixed, the horizontal-only pattern tells you the two active lamps."
+    ],
+    "hint_surface": "cause"
+  },
+  {
+    "id": "GR15",
+    "title": "PLATE & SHUTTER",
+    "posts": 2,
+    "normal_posts": 1,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "rotatable_plate": true,
+    "movable_shutter": true,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B3",
+      "D3"
+    ],
+    "solution_shutter": 1,
+    "solution_post_types": {
+      "B3": "normal",
+      "D3": "plate_v"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "B2": 1,
+          "A3": 1,
+          "C3": 2,
+          "E3": 1
+        }
+      }
+    ],
+    "expected_states": 6000,
+    "hints": [
+      "One absence belongs to the shutter. Another belongs to the plate's thin edge.",
+      "Use the ordinary Post to read the blocked TOP path.",
+      "Then orient the plate from the two sideways shadows."
+    ],
+    "hint_surface": "cause"
+  },
+  {
+    "id": "GR16",
+    "title": "TWO AXES",
+    "posts": 2,
+    "normal_posts": 0,
+    "tall_posts": 0,
+    "plate_posts": 2,
+    "rotatable_plate": true,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C2",
+      "C4"
+    ],
+    "solution_post_types": {
+      "C2": "plate_v",
+      "C4": "plate_h"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "B2": 1,
+          "D2": 1,
+          "C3": 1,
+          "C5": 1
+        }
+      }
+    ],
+    "expected_states": 1200,
+    "hints": [
+      "Two plates can point along different axes.",
+      "Pair each opposite shadow pair with its own midpoint.",
+      "The upper plate answers sideways. The lower plate answers vertically."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR17",
+    "title": "REACH & EDGE",
+    "posts": 2,
+    "normal_posts": 0,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "rotatable_plate": true,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C2",
+      "C4"
+    ],
+    "solution_tall": [
+      "C2"
+    ],
+    "solution_post_types": {
+      "C2": "tall",
+      "C4": "plate_h"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "C1": 1,
+          "A2": 1,
+          "B2": 1,
+          "D2": 1,
+          "E2": 1,
+          "C3": 2,
+          "C4": 1,
+          "C5": 1
+        }
+      }
+    ],
+    "expected_states": 1200,
+    "hints": [
+      "Long reach and directional reach are different signatures.",
+      "The long horizontal span belongs to the Tall Post.",
+      "The remaining vertical pair identifies the plate and its orientation."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR18",
+    "title": "LIGHT THROUGH A GAP",
+    "posts": 2,
+    "normal_posts": 2,
+    "tall_posts": 0,
+    "plate_posts": 0,
+    "movable_shutter": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B3",
+      "D3"
+    ],
+    "solution_shutter": 1,
+    "solution_post_types": {
+      "B3": "normal",
+      "D3": "normal"
+    },
+    "solution_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A3": 1,
+          "C3": 2,
+          "E3": 1,
+          "D4": 1
+        }
+      }
+    ],
+    "expected_states": 6000,
+    "hints": [
+      "Global darkness and local blockage leave different fingerprints.",
+      "The whole board tells you which one of four lamps is off.",
+      "Then use the missing TOP shadow from one column to seat the shutter."
+    ],
+    "hint_surface": "cause"
+  },
+  {
+    "id": "GR19",
+    "title": "THREE MATERIALS",
+    "posts": 3,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "rotatable_plate": true,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B3",
+      "C4",
+      "C3"
+    ],
+    "solution_tall": [
+      "C4"
+    ],
+    "solution_post_types": {
+      "B3": "normal",
+      "C4": "tall",
+      "C3": "plate_h"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "B2": 1,
+          "C2": 2,
+          "A3": 1,
+          "C3": 2,
+          "A4": 1,
+          "B4": 2,
+          "C4": 1,
+          "D4": 1,
+          "E4": 1,
+          "C5": 1
+        }
+      }
+    ],
+    "expected_states": 27600,
+    "hints": [
+      "Three materials leave three different kinds of evidence.",
+      "Find the two-cell reach first, then the full one-cell cross.",
+      "What remains must be explained by the plate's allowed axis."
+    ],
+    "hint_surface": "socket"
+  },
+  {
+    "id": "GR20",
+    "title": "CALIBRATION",
+    "posts": 3,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "rotatable_plate": true,
+    "movable_shutter": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B2",
+      "C1",
+      "C4"
+    ],
+    "solution_shutter": 1,
+    "solution_post_types": {
+      "B2": "normal",
+      "C1": "tall",
+      "C4": "plate_v"
+    },
+    "solution_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A1": 1,
+          "B1": 1,
+          "D1": 1,
+          "E1": 1,
+          "A2": 1,
+          "C2": 2,
+          "C3": 1,
+          "B4": 1,
+          "D4": 1
+        }
+      }
+    ],
+    "expected_states": 552000,
+    "hints": [
+      "Nothing here is new. Separate the causes you already know.",
+      "Reach identifies height. Local absence identifies the shutter. Directional absence identifies the plate.",
+      "Use those object clues to finish the three-light calibration."
+    ],
+    "hint_surface": "cause"
+  },
+  {
+    "id": "GR21",
+    "title": "BLOCKED REACH",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "E2",
+      "E4",
+      "D3"
+    ],
+    "solution_post_types": {
+      "E2": "normal",
+      "E4": "normal",
+      "D3": "tall"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 0,
+          "D1": 1,
+          "E1": 1,
+          "A2": 0,
+          "B2": 0,
+          "C2": 0,
+          "D2": 2,
+          "E2": 0,
+          "A3": 0,
+          "B3": 1,
+          "C3": 1,
+          "D3": 0,
+          "E3": 2,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 2,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 0,
+          "D5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 34500,
+    "expected_solutions": 1,
+    "generator_candidate_id": "two_height_shutter-001",
+    "generator_profile": {
+      "name": "two_height_shutter",
+      "bucket": "two",
+      "normal": 2,
+      "tall": 1,
+      "plate": 0,
+      "light_count": 0,
+      "shutter": true,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "HEIGHT",
+        "SHUTTER"
+      ],
+      "expected_states": 34500
+    },
+    "reasoning_signature": "OVERLAP -> REACH -> ZERO -> TYPE -> SHADOW -> SHUTTER",
+    "solution_complete_shadow": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "review_only": true,
+    "solution_tall": [
+      "D3"
+    ],
+    "movable_shutter": true,
+    "solution_shutter": 4
+  },
+  {
+    "id": "GR22",
+    "title": "WHICH AXIS IS LIT",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B2",
+      "C3",
+      "C4"
+    ],
+    "solution_post_types": {
+      "B2": "normal",
+      "C3": "normal",
+      "C4": "plate_h"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A1": 0,
+          "B1": 1,
+          "C1": 0,
+          "D1": 0,
+          "E1": 0,
+          "A2": 1,
+          "B2": 0,
+          "C2": 2,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 1,
+          "C3": 1,
+          "D3": 1,
+          "E3": 0,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 0,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 0,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 55200,
+    "expected_solutions": 1,
+    "generator_candidate_id": "two_plate_light-005",
+    "generator_profile": {
+      "name": "two_plate_light",
+      "bucket": "two",
+      "normal": 2,
+      "tall": 0,
+      "plate": 1,
+      "light_count": 3,
+      "shutter": false,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "PLATE",
+        "LIGHT"
+      ],
+      "expected_states": 55200
+    },
+    "reasoning_signature": "OVERLAP -> SHADOW -> LIGHT -> ZERO -> ORIENTATION",
+    "solution_complete_shadow": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "review_only": true,
+    "rotatable_plate": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "solution_lights": [
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ]
+  },
+  {
+    "id": "GR23",
+    "title": "LOCAL OR GLOBAL",
+    "posts": 3,
+    "normal_posts": 3,
+    "tall_posts": 0,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B2",
+      "D2",
+      "A3"
+    ],
+    "solution_post_types": {
+      "B2": "normal",
+      "D2": "normal",
+      "A3": "normal"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A1": 0,
+          "B1": 1,
+          "C1": 0,
+          "D1": 1,
+          "E1": 0,
+          "A2": 1,
+          "B2": 0,
+          "C2": 1,
+          "D2": 0,
+          "E2": 1,
+          "A3": 0,
+          "B3": 2,
+          "C3": 0,
+          "D3": 0,
+          "E3": 0,
+          "A4": 1,
+          "B4": 0,
+          "C4": 0,
+          "D4": 0,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 0,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 46000,
+    "expected_solutions": 1,
+    "generator_candidate_id": "two_shutter_light-006",
+    "generator_profile": {
+      "name": "two_shutter_light",
+      "bucket": "two",
+      "normal": 3,
+      "tall": 0,
+      "plate": 0,
+      "light_count": 3,
+      "shutter": true,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "LIGHT",
+        "SHUTTER"
+      ],
+      "expected_states": 46000
+    },
+    "reasoning_signature": "OVERLAP -> SHADOW -> LIGHT -> ZERO -> SHUTTER",
+    "solution_complete_shadow": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "review_only": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "solution_lights": [
+      "TOP",
+      "LEFT",
+      "BOTTOM"
+    ],
+    "movable_shutter": true,
+    "solution_shutter": 3
+  },
+  {
+    "id": "GR24",
+    "title": "SHAPE OF THE SILENCE",
+    "posts": 3,
+    "normal_posts": 3,
+    "tall_posts": 0,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B1",
+      "E2",
+      "C4"
+    ],
+    "solution_post_types": {
+      "B1": "normal",
+      "E2": "normal",
+      "C4": "normal"
+    },
+    "solution_tall": [],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 1,
+          "C2": 0,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 0,
+          "D3": 0,
+          "E3": 1,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 1,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 1,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 969,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "11011",
+        "11111",
+        "00100",
+        "11111",
+        "11011"
+      ]
+    },
+    "reasoning_signature": "SHADOW",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": false,
+    "plate_required": false,
+    "shape_without_mask_survivors": 2
+  },
+  {
+    "id": "GR25",
+    "title": "THE LONG WAY THROUGH",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "C3",
+      "C5",
+      "C4"
+    ],
+    "solution_post_types": {
+      "C3": "normal",
+      "C5": "normal",
+      "C4": "tall"
+    },
+    "solution_tall": [
+      "C4"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 0,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 0,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 0,
+          "D3": 1,
+          "E3": 0,
+          "A4": 0,
+          "B4": 0,
+          "C4": 1,
+          "D4": 1,
+          "E4": 1,
+          "A5": 0,
+          "B5": 0,
+          "C5": 1,
+          "D5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 252,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "00100",
+        "00100",
+        "11111",
+        "00100",
+        "00100"
+      ]
+    },
+    "reasoning_signature": "ZERO/TALL",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": true,
+    "plate_required": false,
+    "shape_without_mask_survivors": 2
+  },
+  {
+    "id": "GR26",
+    "title": "BEYOND THE BLOCKED AXIS",
+    "posts": 3,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D3",
+      "C3",
+      "A3"
+    ],
+    "solution_post_types": {
+      "D3": "normal",
+      "C3": "tall",
+      "A3": "plate_v"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 1,
+          "D2": 1,
+          "E2": 0,
+          "A3": 1,
+          "B3": 2,
+          "C3": 1,
+          "D3": 1,
+          "E3": 2,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 1,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 0,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 138000,
+    "expected_solutions": 1,
+    "generator_candidate_id": "three_height_plate_shutter-002",
+    "generator_profile": {
+      "name": "three_height_plate_shutter",
+      "bucket": "three",
+      "normal": 1,
+      "tall": 1,
+      "plate": 1,
+      "light_count": 0,
+      "shutter": true,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "HEIGHT",
+        "PLATE",
+        "SHUTTER"
+      ],
+      "expected_states": 138000
+    },
+    "reasoning_signature": "OVERLAP -> SHADOW -> REACH -> TYPE -> ZERO -> SHUTTER -> ORIENTATION",
+    "solution_complete_shadow": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      2,
+      1,
+      1,
+      2,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "review_only": true,
+    "solution_tall": [
+      "C3"
+    ],
+    "rotatable_plate": true,
+    "movable_shutter": true,
+    "solution_shutter": 2
+  },
+  {
+    "id": "GR27",
+    "title": "TURN TOWARD THE LIGHT",
+    "posts": 3,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D4",
+      "C4",
+      "D3"
+    ],
+    "solution_post_types": {
+      "D4": "normal",
+      "C4": "tall",
+      "D3": "plate_v"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 0,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 1,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 1,
+          "D3": 1,
+          "E3": 1,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 1,
+          "E4": 2,
+          "A5": 0,
+          "B5": 0,
+          "C5": 1,
+          "D5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 110400,
+    "expected_solutions": 1,
+    "generator_candidate_id": "three_height_plate_light-008",
+    "generator_profile": {
+      "name": "three_height_plate_light",
+      "bucket": "three",
+      "normal": 1,
+      "tall": 1,
+      "plate": 1,
+      "light_count": 3,
+      "shutter": false,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "HEIGHT",
+        "PLATE",
+        "LIGHT"
+      ],
+      "expected_states": 110400
+    },
+    "reasoning_signature": "OVERLAP -> SHADOW -> PLATE_ABSENCE -> REACH -> LIGHT -> TYPE -> ZERO -> ORIENTATION",
+    "solution_complete_shadow": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      2,
+      0,
+      0,
+      1,
+      1,
+      0
+    ],
+    "review_only": true,
+    "solution_tall": [
+      "C4"
+    ],
+    "rotatable_plate": true,
+    "free_light_selection": true,
+    "active_light_count": 3,
+    "initial_lights": [],
+    "solution_lights": [
+      "TOP",
+      "LEFT",
+      "BOTTOM"
+    ]
+  },
+  {
+    "id": "GR28",
+    "title": "PLATE IN THE GAP",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D4",
+      "C5",
+      "A2"
+    ],
+    "solution_post_types": {
+      "D4": "normal",
+      "C5": "normal",
+      "A2": "plate_v"
+    },
+    "solution_tall": [],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 0,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 1,
+          "C2": 0,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 0,
+          "D3": 1,
+          "E3": 0,
+          "A4": 0,
+          "B4": 0,
+          "C4": 2,
+          "D4": 0,
+          "E4": 1,
+          "A5": 0,
+          "B5": 1,
+          "C5": 0,
+          "D5": 2,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 4080,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "10101",
+        "11111",
+        "00100",
+        "11111",
+        "10101"
+      ]
+    },
+    "reasoning_signature": "OVERLAP/PLATE",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": false,
+    "plate_required": true,
+    "shape_without_mask_survivors": 2,
+    "rotatable_plate": true
+  },
+  {
+    "id": "GR29",
+    "title": "VEILED SOCKETS",
+    "posts": 3,
+    "normal_posts": 3,
+    "tall_posts": 0,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D1",
+      "E2",
+      "C4"
+    ],
+    "solution_post_types": {
+      "D1": "normal",
+      "E2": "normal",
+      "C4": "normal"
+    },
+    "solution_tall": [],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 0,
+          "D1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 0,
+          "D2": 1,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 0,
+          "E3": 1,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 1,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "C5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 1330,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "11111",
+        "11111",
+        "00100",
+        "11111",
+        "11111"
+      ]
+    },
+    "reasoning_signature": "SHADOW",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": false,
+    "plate_required": false,
+    "shape_without_mask_survivors": 2,
+    "fog_cells": [
+      "E1",
+      "D3",
+      "D5"
+    ],
+    "fog_removes_shortcut": true
+  },
+  {
+    "id": "GR30",
+    "title": "PARTIAL CROSS",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 0,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D3",
+      "D5",
+      "C4"
+    ],
+    "solution_post_types": {
+      "D3": "normal",
+      "D5": "normal",
+      "C4": "plate_h"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "B1": 0,
+          "C1": 0,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 0,
+          "D2": 1,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 2,
+          "D3": 0,
+          "E3": 1,
+          "A4": 0,
+          "B4": 0,
+          "C4": 0,
+          "D4": 1,
+          "E4": 0,
+          "A5": 0,
+          "B5": 0,
+          "E5": 1
+        }
+      }
+    ],
+    "expected_states": 69000,
+    "expected_solutions": 1,
+    "generator_candidate_id": "fog_plate_shutter-010",
+    "generator_profile": {
+      "name": "fog_plate_shutter",
+      "bucket": "fog",
+      "normal": 2,
+      "tall": 0,
+      "plate": 1,
+      "light_count": 0,
+      "shutter": true,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "PLATE",
+        "SHUTTER"
+      ],
+      "expected_states": 69000
+    },
+    "reasoning_signature": "OVERLAP -> SHADOW -> ZERO -> PLATE_ABSENCE -> SHUTTER -> ORIENTATION",
+    "solution_complete_shadow": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2,
+      0,
+      1
+    ],
+    "review_only": true,
+    "rotatable_plate": true,
+    "movable_shutter": true,
+    "solution_shutter": 3,
+    "fog_cells": [
+      "A1",
+      "C5",
+      "D5"
+    ]
+  },
+  {
+    "id": "GR31",
+    "title": "UNSEEN BUT KNOWN",
+    "posts": 3,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 0,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "D1",
+      "C5",
+      "D5"
+    ],
+    "solution_post_types": {
+      "D1": "normal",
+      "C5": "normal",
+      "D5": "tall"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "B2": 0,
+          "C2": 0,
+          "D2": 0,
+          "E2": 0,
+          "A3": 0,
+          "B3": 0,
+          "C3": 0,
+          "D3": 1,
+          "A4": 0,
+          "B4": 0,
+          "C4": 1,
+          "D4": 1,
+          "A5": 0,
+          "C5": 1,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 41400,
+    "expected_solutions": 1,
+    "generator_candidate_id": "fog_height_light-007",
+    "generator_profile": {
+      "name": "fog_height_light",
+      "bucket": "fog",
+      "normal": 2,
+      "tall": 1,
+      "plate": 0,
+      "light_count": 2,
+      "shutter": false,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "HEIGHT",
+        "LIGHT"
+      ],
+      "expected_states": 41400
+    },
+    "reasoning_signature": "SHADOW -> REACH -> ZERO -> LIGHT -> TYPE",
+    "solution_complete_shadow": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0
+    ],
+    "review_only": true,
+    "solution_tall": [
+      "D5"
+    ],
+    "free_light_selection": true,
+    "active_light_count": 2,
+    "initial_lights": [],
+    "solution_lights": [
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "fog_cells": [
+      "E1",
+      "A2",
+      "E3",
+      "E4",
+      "B5"
+    ]
+  },
+  {
+    "id": "GR32",
+    "title": "THE LAST OPEN AXIS",
+    "posts": 3,
+    "normal_posts": 1,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B1",
+      "A3",
+      "B3"
+    ],
+    "solution_post_types": {
+      "B1": "normal",
+      "A3": "tall",
+      "B3": "plate_v"
+    },
+    "solution_tall": [
+      "A3"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 2,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "E1": 0,
+          "A2": 1,
+          "B2": 1,
+          "C2": 0,
+          "D2": 0,
+          "E2": 0,
+          "A3": 1,
+          "B3": 1,
+          "C3": 2,
+          "D3": 0,
+          "E3": 0,
+          "A4": 1,
+          "B4": 0,
+          "C4": 0,
+          "D4": 0,
+          "E4": 0,
+          "A5": 1,
+          "B5": 0,
+          "C5": 0,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 6720,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "11000",
+        "11000",
+        "11000",
+        "11111",
+        "11111"
+      ]
+    },
+    "reasoning_signature": "OVERLAP/TALL/PLATE",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": true,
+    "plate_required": true,
+    "shape_without_mask_survivors": 2,
+    "rotatable_plate": true
+  },
+  {
+    "id": "GR33",
+    "title": "FOUR VOICES",
+    "posts": 4,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "A4",
+      "A5",
+      "C3",
+      "D4"
+    ],
+    "solution_post_types": {
+      "A4": "normal",
+      "A5": "normal",
+      "C3": "tall",
+      "D4": "plate_v"
+    },
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 0,
+          "C2": 1,
+          "D2": 0,
+          "E2": 0,
+          "A3": 2,
+          "B3": 1,
+          "C3": 0,
+          "D3": 1,
+          "E3": 1,
+          "A4": 1,
+          "B4": 1,
+          "C4": 2,
+          "D4": 0,
+          "E4": 1,
+          "A5": 0,
+          "B5": 1,
+          "C5": 1,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 1518000,
+    "expected_solutions": 1,
+    "generator_candidate_id": "dense_height_plate_shutter-014",
+    "generator_profile": {
+      "name": "dense_height_plate_shutter",
+      "bucket": "dense",
+      "normal": 2,
+      "tall": 1,
+      "plate": 1,
+      "light_count": 0,
+      "shutter": true,
+      "fixed_lights": [
+        "TOP",
+        "LEFT",
+        "RIGHT",
+        "BOTTOM"
+      ],
+      "families": [
+        "HEIGHT",
+        "PLATE",
+        "SHUTTER"
+      ],
+      "expected_states": 1518000
+    },
+    "reasoning_signature": "OVERLAP -> ZERO -> SHADOW -> SHUTTER -> REACH -> TYPE -> ORIENTATION",
+    "solution_complete_shadow": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      2,
+      1,
+      0,
+      1,
+      1,
+      1,
+      1,
+      2,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    "review_only": true,
+    "solution_tall": [
+      "C3"
+    ],
+    "rotatable_plate": true,
+    "movable_shutter": true,
+    "solution_shutter": 0
+  },
+  {
+    "id": "GR34",
+    "title": "FOUR CAUSES AGREE",
+    "posts": 4,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B1",
+      "A3",
+      "D4",
+      "B3"
+    ],
+    "solution_post_types": {
+      "B1": "normal",
+      "A3": "normal",
+      "D4": "tall",
+      "B3": "plate_v"
+    },
+    "solution_tall": [
+      "D4"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 1,
+          "B1": 0,
+          "C1": 1,
+          "D1": 0,
+          "E1": 0,
+          "A2": 1,
+          "B2": 1,
+          "C2": 0,
+          "D2": 1,
+          "E2": 0,
+          "A3": 1,
+          "B3": 1,
+          "C3": 1,
+          "D3": 1,
+          "E3": 0,
+          "A4": 1,
+          "B4": 1,
+          "C4": 1,
+          "D4": 0,
+          "E4": 1,
+          "A5": 0,
+          "B5": 0,
+          "C5": 0,
+          "D5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 43680,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "11000",
+        "11000",
+        "11000",
+        "11111",
+        "11111"
+      ]
+    },
+    "reasoning_signature": "SHADOW/TALL/PLATE",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": true,
+    "plate_required": true,
+    "shape_without_mask_survivors": 2,
+    "rotatable_plate": true
+  },
+  {
+    "id": "GR35",
+    "title": "DENSE BOARD SYNTHESIS",
+    "posts": 4,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "B2",
+      "C5",
+      "D2",
+      "E3"
+    ],
+    "solution_post_types": {
+      "B2": "normal",
+      "C5": "normal",
+      "D2": "tall",
+      "E3": "plate_v"
+    },
+    "solution_tall": [
+      "D2"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 0,
+          "B1": 1,
+          "C1": 0,
+          "D1": 1,
+          "E1": 0,
+          "A2": 1,
+          "B2": 1,
+          "C2": 2,
+          "D2": 0,
+          "E2": 1,
+          "A3": 0,
+          "B3": 1,
+          "C3": 0,
+          "D3": 2,
+          "E3": 0,
+          "A4": 0,
+          "B4": 0,
+          "C4": 1,
+          "D4": 1,
+          "E4": 0,
+          "A5": 0,
+          "B5": 1,
+          "C5": 0,
+          "D5": 1,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 17160,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "00100",
+        "01110",
+        "11111",
+        "01110",
+        "00100"
+      ]
+    },
+    "reasoning_signature": "ZERO/TALL/PLATE",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": true,
+    "plate_required": true,
+    "shape_without_mask_survivors": 2,
+    "rotatable_plate": true
+  },
+  {
+    "id": "GR36",
+    "title": "THE SHAPED FINALE",
+    "posts": 4,
+    "normal_posts": 2,
+    "tall_posts": 1,
+    "plate_posts": 1,
+    "installed_lights": [
+      "TOP",
+      "LEFT",
+      "RIGHT",
+      "BOTTOM"
+    ],
+    "solution": [
+      "A2",
+      "B4",
+      "C3",
+      "C2"
+    ],
+    "solution_post_types": {
+      "A2": "normal",
+      "B4": "normal",
+      "C3": "tall",
+      "C2": "plate_h"
+    },
+    "solution_tall": [
+      "C3"
+    ],
+    "observations": [
+      {
+        "id": "A",
+        "active_lights": [
+          "TOP",
+          "LEFT",
+          "RIGHT",
+          "BOTTOM"
+        ],
+        "target": {
+          "A1": 1,
+          "B1": 0,
+          "C1": 2,
+          "D1": 0,
+          "E1": 0,
+          "A2": 0,
+          "B2": 1,
+          "C2": 1,
+          "D2": 0,
+          "E2": 0,
+          "A3": 2,
+          "B3": 2,
+          "C3": 1,
+          "D3": 1,
+          "E3": 1,
+          "A4": 1,
+          "B4": 0,
+          "C4": 2,
+          "D4": 0,
+          "E4": 0,
+          "A5": 0,
+          "B5": 1,
+          "C5": 1,
+          "D5": 0,
+          "E5": 0
+        }
+      }
+    ],
+    "expected_states": 93024,
+    "expected_solutions": 1,
+    "boardShape": {
+      "mask": [
+        "11011",
+        "11111",
+        "00100",
+        "11111",
+        "11011"
+      ]
+    },
+    "reasoning_signature": "OVERLAP/TALL/PLATE",
+    "shape_required": true,
+    "typed_inventory_exact": true,
+    "tall_required": true,
+    "plate_required": true,
+    "shape_without_mask_survivors": 2,
+    "rotatable_plate": true
+  }
+]
