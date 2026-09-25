@@ -1,7 +1,31 @@
 from __future__ import annotations
 
+from collections import Counter
 from copy import deepcopy
 from typing import Any
+
+
+def _solution_kind(stage: dict[str, Any], cell_name: str) -> str:
+    declared = stage.get("solution_post_types", {})
+    if cell_name in declared:
+        return str(declared[cell_name])
+    if cell_name in set(stage.get("solution_tall", [])):
+        return "tall"
+    if stage.get("tall"):
+        return "tall"
+    return "normal"
+
+
+def _canonical_piece(kind: str) -> tuple[str, str | None]:
+    if kind == "normal":
+        return "POST", None
+    if kind == "tall":
+        return "TALL", None
+    if kind == "plate_v":
+        return "PLATE", "V"
+    if kind == "plate_h":
+        return "PLATE", "H"
+    raise ValueError(f"unknown NOXSUM piece type: {kind}")
 
 
 def import_grant_stage(
@@ -11,40 +35,85 @@ def import_grant_stage(
     ref: str | None = None,
     path: str | None = None,
 ) -> dict[str, Any]:
-    """Convert a current NOXSUM Grant stage into canonical Lab format.
-
-    The importer intentionally keeps mechanics generic. New piece types and
-    gimmicks can be added without changing the provenance / curation envelope.
-    """
+    """Convert a current NOXSUM Grant stage into canonical Lab format."""
 
     source_id = str(stage["id"])
-    posts = int(stage.get("posts", len(stage.get("solution", []))))
-    solution_cells = list(stage.get("solution", []))
+    solution_cells = [str(value) for value in stage.get("solution", [])]
 
-    placements = [
-        {"piece": "POST", "cell": str(cell), "orientation": None}
-        for cell in solution_cells
-    ]
+    placements: list[dict[str, Any]] = []
+    inventory_counts: Counter[str] = Counter()
+    for cell_name in solution_cells:
+        kind = _solution_kind(stage, cell_name)
+        piece, orientation = _canonical_piece(kind)
+        inventory_counts[piece] += 1
+        placements.append(
+            {
+                "piece": piece,
+                "cell": cell_name,
+                "orientation": orientation,
+                "kind": kind,
+            }
+        )
 
     mechanics: dict[str, Any] = {}
-    for key in (
+    mechanic_keys = (
         "installed_lights",
         "fixed_posts",
+        "fixed_post_types",
         "free_light_selection",
         "active_light_count",
         "initial_lights",
-        "hint_surface",
-    ):
+        "movable_shutter",
+        "fixed_shutters",
+        "rotatable_plate",
+        "fog_cells",
+        "normal_posts",
+        "tall_posts",
+        "plate_posts",
+        "tall",
+    )
+    for key in mechanic_keys:
         if key in stage:
             mechanics[key] = deepcopy(stage[key])
 
     annotations: dict[str, Any] = {}
-    if "hints" in stage:
-        annotations["hints"] = deepcopy(stage["hints"])
+    for key in (
+        "hints",
+        "hint_surface",
+        "reasoning_signature",
+        "generator_candidate_id",
+        "generator_profile",
+        "review_only",
+    ):
+        if key in stage:
+            annotations[key] = deepcopy(stage[key])
 
     metrics: dict[str, Any] = {}
-    if "expected_states" in stage:
-        metrics["expected_states"] = stage["expected_states"]
+    for key in (
+        "expected_states",
+        "expected_solutions",
+        "shape_required",
+        "shape_without_mask_survivors",
+        "typed_inventory_exact",
+        "tall_required",
+        "plate_required",
+        "fog_removes_shortcut",
+    ):
+        if key in stage:
+            metrics[key] = deepcopy(stage[key])
+
+    board_mask = None
+    if isinstance(stage.get("boardShape"), dict):
+        board_mask = deepcopy(stage["boardShape"].get("mask"))
+
+    solution: dict[str, Any] = {
+        "placements": placements,
+        "lights": list(stage.get("solution_lights", [])),
+    }
+    if "solution_shutter" in stage:
+        solution["shutter"] = int(stage["solution_shutter"])
+    if "solution_complete_shadow" in stage:
+        solution["complete_shadow"] = deepcopy(stage["solution_complete_shadow"])
 
     return {
         "schema_version": "noxsum.level.v1",
@@ -62,15 +131,10 @@ def import_grant_stage(
         "board": {
             "width": 5,
             "height": 5,
-            "mask": None,
+            "mask": board_mask,
         },
-        "inventory": {
-            "POST": posts,
-        },
-        "solution": {
-            "placements": placements,
-            "lights": list(stage.get("solution_lights", [])),
-        },
+        "inventory": dict(inventory_counts),
+        "solution": solution,
         "mechanics": mechanics,
         "observations": deepcopy(stage.get("observations", [])),
         "annotations": annotations,
