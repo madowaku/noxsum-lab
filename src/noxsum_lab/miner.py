@@ -202,18 +202,23 @@ def mine_candidates(
     per_profile = (count + len(profiles) - 1) // len(profiles)
     raw_records: list[dict[str, Any]] = []
     profile_stats: list[dict[str, Any]] = []
+    profile_meta: list[dict[str, Any]] = []
     serial = 0
 
-    for inventory, lights in profiles:
-        pid = _profile_id(inventory, lights)
-        worlds, targets, unique_indices = _prepare_profile(inventory, lights)
-        rng = random.Random(_stable_seed(seed, pid))
-        rng.shuffle(unique_indices)
+    def append_records(
+        inventory: tuple[int, int, int],
+        lights: tuple[str, ...],
+        pid: str,
+        worlds: list[Any],
+        targets: list[tuple[int, ...]],
+        indices: list[int],
+    ) -> None:
+        nonlocal serial
+        if not indices:
+            return
 
-        selected_indices = unique_indices[:per_profile]
         reasoning_index = ReasoningIndex(worlds, targets)
-
-        for world_index in selected_indices:
+        for world_index in indices:
             serial += 1
             objects = worlds[world_index]
             values = targets[world_index]
@@ -253,68 +258,74 @@ def mine_candidates(
                 }
             )
 
-        profile_stats.append(
+    for inventory, lights in profiles:
+        pid = _profile_id(inventory, lights)
+        worlds, targets, unique_indices = _prepare_profile(inventory, lights)
+        rng = random.Random(_stable_seed(seed, pid))
+        rng.shuffle(unique_indices)
+
+        selected_indices = unique_indices[:per_profile]
+        append_records(inventory, lights, pid, worlds, targets, selected_indices)
+
+        stats = {
+            "profile_id": pid,
+            "inventory": list(inventory),
+            "lights": list(lights),
+            "search_space": len(worlds),
+            "exact_unique_targets": len(unique_indices),
+            "sampled": len(selected_indices),
+        }
+        profile_stats.append(stats)
+        profile_meta.append(
             {
+                "inventory": inventory,
+                "lights": lights,
                 "profile_id": pid,
-                "inventory": list(inventory),
-                "lights": list(lights),
-                "search_space": len(worlds),
-                "exact_unique_targets": len(unique_indices),
+                "capacity": len(unique_indices),
                 "sampled": len(selected_indices),
+                "stats": stats,
             }
         )
 
-    # If a small profile could not meet its balanced quota, top up
-    # deterministically from remaining exact-unique worlds in other profiles.
+    # If some profiles cannot meet the initial quota (for example, opposite
+    # two-light Plate profiles can have zero exact-unique targets), redistribute
+    # the shortfall approximately evenly across every profile that still has
+    # unused exact-unique candidates. This avoids biasing the top-up toward the
+    # first profile in the matrix.
     if len(raw_records) < count:
         needed = count - len(raw_records)
-        for inventory, lights in profiles:
+        viable = [
+            meta
+            for meta in profile_meta
+            if meta["capacity"] > meta["sampled"]
+        ]
+
+        for position, meta in enumerate(viable):
             if needed <= 0:
                 break
 
-            pid = _profile_id(inventory, lights)
+            profiles_left = len(viable) - position
+            fair_share = (needed + profiles_left - 1) // profiles_left
+            available = meta["capacity"] - meta["sampled"]
+            extra_count = min(fair_share, available)
+            if extra_count <= 0:
+                continue
+
+            inventory = meta["inventory"]
+            lights = meta["lights"]
+            pid = meta["profile_id"]
             worlds, targets, unique_indices = _prepare_profile(inventory, lights)
             rng = random.Random(_stable_seed(seed, pid))
             rng.shuffle(unique_indices)
-            start = min(per_profile, len(unique_indices))
-            extras = unique_indices[start:start + needed]
-            if not extras:
-                continue
 
-            reasoning_index = ReasoningIndex(worlds, targets)
-            for world_index in extras:
-                serial += 1
-                objects = worlds[world_index]
-                values = targets[world_index]
-                reasoning = reasoning_index.analyze(values)
-                texture = texture_metrics(objects, values, lights)
-                metrics = {**texture, "search_space": len(worlds)}
-                flow_score, aha_score, tags = score_candidate({**metrics, **reasoning})
-                canonical = canonical_puzzle_signature(
-                    target=values,
-                    lights=lights,
-                    inventory=inventory,
-                )
-                canonical_hash = hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:20]
-                raw_records.append(
-                    {
-                        "profile_id": pid,
-                        "inventory": inventory,
-                        "lights": lights,
-                        "objects": objects,
-                        "values": values,
-                        "metrics": metrics,
-                        "reasoning": reasoning,
-                        "flow_score": flow_score,
-                        "aha_score": aha_score,
-                        "tags": tags,
-                        "canonical": canonical,
-                        "canonical_hash": canonical_hash,
-                    }
-                )
-                needed -= 1
-                if needed <= 0:
-                    break
+            start_index = meta["sampled"]
+            extras = unique_indices[start_index:start_index + extra_count]
+            append_records(inventory, lights, pid, worlds, targets, extras)
+
+            added = len(extras)
+            meta["sampled"] += added
+            meta["stats"]["sampled"] = meta["sampled"]
+            needed -= added
 
     raw_records = raw_records[:count]
     if len(raw_records) < count:
