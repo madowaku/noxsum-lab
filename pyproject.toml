@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "noxsum-lab"
+version = "0.1.0"
+description = "Generation, validation, analysis, and curation tools for NOXSUM levels"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema>=4.23,<5",
+]
+
+[project.scripts]
+noxsum-lab = "noxsum_lab.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/noxsum_lab"]
