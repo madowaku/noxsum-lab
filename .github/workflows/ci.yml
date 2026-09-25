@@ -23,6 +23,13 @@ jobs:
       - name: Validate canonical example
         run: noxsum-lab validate examples/canonical_level_v1.json
 
+      - name: Import final Grant36 campaign
+        run: |
+          noxsum-lab import-grant fixtures/grant36_v0_5.json /tmp/grant36-canonical.json \
+            --ref feature/grant36-v0.5-board-shapes \
+            --source-path data/grant36_v0_5.json
+          noxsum-lab validate /tmp/grant36-canonical.json
+
       - name: Revalidate final Grant36 campaign
         run: noxsum-lab revalidate-grant fixtures/grant36_v0_5.json
 
