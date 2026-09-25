@@ -7,7 +7,9 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+from .generator import generate_levels
 from .import_grant import import_grant_pack
+from .solver import validate_campaign
 
 
 DEFAULT_SCHEMA = Path("schemas/noxsum_level_v1.schema.json")
@@ -74,6 +76,76 @@ def cmd_import_grant(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_revalidate_grant(args: argparse.Namespace) -> int:
+    source = _read_json(Path(args.input))
+    if not isinstance(source, list):
+        raise ValueError("Grant campaign must be a JSON array.")
+
+    results = validate_campaign(source)
+    for result in results:
+        solution = result.solutions[0]
+        object_text = ",".join(
+            f"{item['cell']}:{item['type']}"
+            for item in solution.as_dict()["objects"]
+        )
+        shutter = "-" if solution.shutter is None else str(solution.shutter)
+        print(
+            f"{result.stage_id}: states={result.searched_states}, unique=1, "
+            f"objects={object_text}, lights={'+'.join(solution.lights)}, "
+            f"shutter={shutter}"
+        )
+
+    print(
+        f"PASS: {len(results)} stages, "
+        f"{sum(result.searched_states for result in results)} states searched"
+    )
+    return 0
+
+
+def _parse_lights(value: str) -> tuple[str, ...]:
+    lights = tuple(
+        item.strip().upper()
+        for item in value.split(",")
+        if item.strip()
+    )
+    if not lights:
+        raise argparse.ArgumentTypeError("at least one light is required")
+    allowed = {"TOP", "LEFT", "RIGHT", "BOTTOM"}
+    unknown = set(lights) - allowed
+    if unknown:
+        raise argparse.ArgumentTypeError(
+            "unknown lights: " + ", ".join(sorted(unknown))
+        )
+    return lights
+
+
+def _parse_mask(value: str) -> list[str]:
+    rows = [item.strip() for item in value.split("/")]
+    if len(rows) != 5 or any(len(row) != 5 or set(row) - {"0", "1"} for row in rows):
+        raise argparse.ArgumentTypeError(
+            "mask must be five 5-character 0/1 rows separated by /"
+        )
+    return rows
+
+
+def cmd_generate(args: argparse.Namespace) -> int:
+    levels = generate_levels(
+        seed=args.seed,
+        count=args.count,
+        normal=args.normal,
+        tall=args.tall,
+        plate=args.plate,
+        lights=args.lights,
+        board_mask=args.mask,
+    )
+    _write_json(Path(args.output), levels)
+    print(
+        f"Generated {len(levels)} exact-unique candidates -> {args.output} "
+        f"(seed={args.seed})"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="noxsum-lab")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -90,6 +162,41 @@ def build_parser() -> argparse.ArgumentParser:
     imp.add_argument("--ref", default=None)
     imp.add_argument("--source-path", default=None)
     imp.set_defaults(func=cmd_import_grant)
+
+    revalidate = sub.add_parser(
+        "revalidate-grant",
+        help="Exhaustively revalidate a NOXSUM Grant campaign",
+    )
+    revalidate.add_argument(
+        "input",
+        nargs="?",
+        default="fixtures/grant36_v0_5.json",
+    )
+    revalidate.set_defaults(func=cmd_revalidate_grant)
+
+    generate = sub.add_parser(
+        "generate",
+        help="Generate deterministic exact-unique candidates",
+    )
+    generate.add_argument("output")
+    generate.add_argument("--seed", type=int, default=20260925)
+    generate.add_argument("--count", type=int, default=20)
+    generate.add_argument("--normal", type=int, default=3)
+    generate.add_argument("--tall", type=int, default=0)
+    generate.add_argument("--plate", type=int, default=0)
+    generate.add_argument(
+        "--lights",
+        type=_parse_lights,
+        default=("TOP", "LEFT", "RIGHT"),
+        help="comma-separated fixed lights",
+    )
+    generate.add_argument(
+        "--mask",
+        type=_parse_mask,
+        default=None,
+        help="five board-mask rows separated by /",
+    )
+    generate.set_defaults(func=cmd_generate)
 
     return parser
 
