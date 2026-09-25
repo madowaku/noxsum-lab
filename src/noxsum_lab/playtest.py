@@ -341,6 +341,74 @@ def write_blind_pack(pack: dict[str, Any], output_dir: Path) -> None:
         json.dumps(pack["answer_key"], ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    (output_dir / "blind_pack_game_session_A_01-20.json").write_text(
+        json.dumps(pack["game_stages"][:20], ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (output_dir / "blind_pack_game_session_B_21-40.json").write_text(
+        json.dumps(pack["game_stages"][20:], ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    reveal_lines = [
+        "# DO NOT OPEN BEFORE FIRST RATINGS",
+        "",
+        "各問題を十分考え、初回評価を記録してから必要な問題だけ見てください。",
+        "",
+    ]
+    audit_lines = [
+        "# Selection Audit (DO NOT OPEN BEFORE PLAYTEST)",
+        "",
+        "This file exposes FLOW/AHA labels and score bands.",
+        "",
+        "| PT | Bucket | Band | Source | Profile | FLOW rank | FLOW | AHA rank | AHA |",
+        "|---|---|---|---|---|---:|---:|---:|---:|",
+    ]
+
+    for item in pack["answer_key"]:
+        reveal_lines.append(f"## {item['pt_id']}")
+        parts: list[str] = []
+        for placement in item["solution"]["placements"]:
+            kind = str(placement.get("kind") or placement.get("piece"))
+            cell = str(placement["cell"])
+            orientation = placement.get("orientation")
+            if orientation:
+                parts.append(f"{kind}@{cell}({orientation})")
+            else:
+                parts.append(f"{kind}@{cell}")
+        reveal_lines.append("- Solution: " + ", ".join(parts))
+        reveal_lines.append(
+            "- Lights: " + " + ".join(item["solution"].get("lights", []))
+        )
+        pair = item.get("best_pair_cells", [])
+        if pair:
+            reveal_lines.append("- Solver attention pair: " + " + ".join(pair))
+        trace = item.get("witness_trace", [])
+        if trace:
+            trace_text = " → ".join(
+                f"{step['cell']}={step['value']} "
+                f"[{step['before']}→{step['after']}]"
+                for step in trace
+            )
+            reveal_lines.append("- Constraint trace: " + trace_text)
+        reveal_lines.append("")
+
+        audit_lines.append(
+            f"| {item['pt_id']} | {item['target_bucket']} | "
+            f"{item['calibration_band']} | {item['source_id']} | "
+            f"{item['profile_id']} | {item['flow_rank']} | "
+            f"{float(item['flow_score']):.3f} | {item['aha_rank']} | "
+            f"{float(item['aha_score']):.3f} |"
+        )
+
+    (output_dir / "_DO_NOT_OPEN_reveal_guide.md").write_text(
+        "\n".join(reveal_lines) + "\n",
+        encoding="utf-8",
+    )
+    (output_dir / "_DO_NOT_OPEN_selection_audit.md").write_text(
+        "\n".join(audit_lines) + "\n",
+        encoding="utf-8",
+    )
 
     with (output_dir / "ratings.csv").open(
         "w", encoding="utf-8", newline=""
@@ -368,8 +436,12 @@ def write_blind_pack(pack: dict[str, Any], output_dir: Path) -> None:
 Files:
 - blind_pack_game.json: 現行NOXSUM形式でプレイするための40問
 - blind_pack_canonical.json: Lab canonical形式
+- blind_pack_game_session_A_01-20.json: 前半20問
+- blind_pack_game_session_B_21-40.json: 後半20問
 - ratings.csv: プレイ後に記録する評価表
-- _DO_NOT_OPEN_answer_key.json: 採点終了まで開かない答え合わせ用
+- _DO_NOT_OPEN_answer_key.json: 機械可読の答え合わせ用
+- _DO_NOT_OPEN_reveal_guide.md: 人間向け解答確認
+- _DO_NOT_OPEN_selection_audit.md: FLOW/AHA区分と元スコア
 
 Protocol:
 1. PT-001から順にプレイする。
