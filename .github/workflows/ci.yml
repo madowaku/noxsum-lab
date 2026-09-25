@@ -22,3 +22,11 @@ jobs:
 
       - name: Validate canonical example
         run: noxsum-lab validate examples/canonical_level_v1.json
+
+      - name: Revalidate final Grant36 campaign
+        run: noxsum-lab revalidate-grant fixtures/grant36_v0_5.json
+
+      - name: Generate deterministic sample
+        run: |
+          noxsum-lab generate /tmp/noxsum-generated.json --seed 20260925 --count 12 --normal 3
+          noxsum-lab validate /tmp/noxsum-generated.json
