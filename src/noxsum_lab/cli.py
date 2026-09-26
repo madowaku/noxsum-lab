@@ -10,7 +10,7 @@ from jsonschema import Draft202012Validator
 from .generator import generate_levels
 from .import_grant import import_grant_pack
 from .miner import mine_candidates, write_mining_outputs
-from .playtest import build_blind_pack, write_blind_pack
+from .playtest import build_blind_pack, write_blind_pack, write_playtest_current
 from .solver import validate_campaign
 
 
@@ -173,6 +173,34 @@ def cmd_mine(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_playtest(args: argparse.Namespace) -> int:
+    if args.input:
+        manifest = _read_json(Path(args.input))
+        if not isinstance(manifest, dict) or manifest.get("schema_version") != "noxsum.mine.v0.2":
+            raise ValueError("playtest input must be a noxsum.mine.v0.2 manifest")
+    else:
+        manifest = mine_candidates(
+            seed=args.seed,
+            count=args.count,
+        )
+
+    pack = build_blind_pack(
+        manifest,
+        shuffle_seed=args.seed,
+    )
+
+    if args.audit_dir:
+        write_blind_pack(pack, Path(args.audit_dir))
+
+    output_path = write_playtest_current(pack, Path(args.output))
+    print(
+        f"Built {len(pack['game_stages'])}-stage blind playtest export -> {output_path}"
+    )
+    if args.audit_dir:
+        print(f"Audit pack: {args.audit_dir}")
+    return 0
+
+
 def cmd_blind_pack(args: argparse.Namespace) -> int:
     manifest = _read_json(Path(args.input))
     if not isinstance(manifest, dict) or manifest.get("schema_version") != "noxsum.mine.v0.2":
@@ -261,6 +289,25 @@ def build_parser() -> argparse.ArgumentParser:
     blind.add_argument("--output-dir", default="playtests/blind_v0_1")
     blind.add_argument("--seed", type=int, default=20260925)
     blind.set_defaults(func=cmd_blind_pack)
+
+    playtest = sub.add_parser(
+        "playtest",
+        help="Mine/select a blind pack and export it for NOXSUM Playtest Harness",
+    )
+    playtest.add_argument(
+        "--input",
+        default=None,
+        help="optional existing noxsum.mine.v0.2 manifest; otherwise mine a fresh pool",
+    )
+    playtest.add_argument("--seed", type=int, default=20260925)
+    playtest.add_argument("--count", type=int, default=10_000)
+    playtest.add_argument("--output", default="exports/playtest_current.json")
+    playtest.add_argument(
+        "--audit-dir",
+        default="playtests/current",
+        help="write hidden answer key and audit files here; use empty string to skip",
+    )
+    playtest.set_defaults(func=cmd_playtest)
 
     return parser
 
