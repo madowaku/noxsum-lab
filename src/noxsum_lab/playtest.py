@@ -203,6 +203,7 @@ def _to_game_stage(
     stage: dict[str, Any] = {
         "id": public_id,
         "title": f"BLIND TEST {ordinal:02d}",
+        "source_id": str(source_level["id"]),
         "posts": normal + tall + plate,
         "normal_posts": normal,
         "tall_posts": tall,
@@ -324,6 +325,19 @@ def build_blind_pack(
         "game_stages": game_stages,
         "answer_key": answer_key,
     }
+
+
+def write_playtest_current(
+    pack: dict[str, Any],
+    output_path: Path = Path("exports/playtest_current.json"),
+) -> Path:
+    """Write the game-ready blind stages consumed by NOXSUM Playtest Harness."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(pack["game_stages"], ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return output_path
 
 
 def write_blind_pack(pack: dict[str, Any], output_dir: Path) -> None:
