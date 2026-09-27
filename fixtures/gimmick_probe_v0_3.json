@@ -1,0 +1,190 @@
+{
+  "schema_version": "noxsum.gimmick_probe.v0.3",
+  "rules_note": "Exploratory only. These mechanics are not part of the frozen Grant36 campaign.",
+  "stages": [
+    {
+      "id": "LAN-01",
+      "family": "LANTERN",
+      "role": "RULE_READABLE",
+      "fixed_sits": [
+        "C3"
+      ],
+      "movable_sits": 1,
+      "lanterns": 1,
+      "observed": {
+        "C4": 1,
+        "E2": 1
+      },
+      "solution": {
+        "lantern": "C2",
+        "movable_sits": [
+          "D2"
+        ]
+      },
+      "expected_states": 552,
+      "expected_solutions": 1,
+      "counterfactuals": [
+        {
+          "observed": [
+            "C4"
+          ],
+          "expected_solutions": 48
+        },
+        {
+          "observed": [
+            "E2"
+          ],
+          "expected_solutions": 5
+        },
+        {
+          "observed": [
+            "C4",
+            "E2"
+          ],
+          "expected_solutions": 1
+        }
+      ]
+    },
+    {
+      "id": "LAN-02",
+      "family": "LANTERN",
+      "role": "AHA",
+      "fixed_sits": [
+        "C3"
+      ],
+      "movable_sits": 1,
+      "lanterns": 1,
+      "observed": {
+        "B3": 1,
+        "D1": 1
+      },
+      "solution": {
+        "lantern": "D3",
+        "movable_sits": [
+          "D2"
+        ]
+      },
+      "expected_states": 552,
+      "expected_solutions": 1,
+      "counterfactuals": [
+        {
+          "observed": [
+            "B3"
+          ],
+          "expected_solutions": 48
+        },
+        {
+          "observed": [
+            "D1"
+          ],
+          "expected_solutions": 5
+        },
+        {
+          "observed": [
+            "B3",
+            "D1"
+          ],
+          "expected_solutions": 1
+        }
+      ]
+    },
+    {
+      "id": "MIR-01",
+      "family": "ROTATABLE_MIRROR",
+      "role": "RULE_READABLE",
+      "fixed_mirror": "C3",
+      "mirror_orientations": [
+        "/",
+        "\\"
+      ],
+      "fixed_lights": [
+        "TOP"
+      ],
+      "fixed_sits": [],
+      "movable_sits": 1,
+      "observed": {
+        "A3": 1,
+        "B4": 1
+      },
+      "solution": {
+        "mirror_orientation": "/",
+        "movable_sits": [
+          "B3"
+        ]
+      },
+      "expected_states": 48,
+      "expected_solutions": 1,
+      "counterfactuals": [
+        {
+          "observed": [
+            "A3"
+          ],
+          "expected_solutions": 3
+        },
+        {
+          "observed": [
+            "B4"
+          ],
+          "expected_solutions": 2
+        },
+        {
+          "observed": [
+            "A3",
+            "B4"
+          ],
+          "expected_solutions": 1
+        }
+      ]
+    },
+    {
+      "id": "MIR-02",
+      "family": "ROTATABLE_MIRROR",
+      "role": "AHA_ZERO",
+      "fixed_mirror": "C3",
+      "mirror_orientations": [
+        "/",
+        "\\"
+      ],
+      "fixed_lights": [
+        "TOP"
+      ],
+      "fixed_sits": [
+        "B3"
+      ],
+      "movable_sits": 1,
+      "observed": {
+        "E5": 1,
+        "A3": 0
+      },
+      "solution": {
+        "mirror_orientation": "\\",
+        "movable_sits": [
+          "E4"
+        ]
+      },
+      "expected_states": 46,
+      "expected_solutions": 1,
+      "counterfactuals": [
+        {
+          "observed": [
+            "E5"
+          ],
+          "expected_solutions": 2
+        },
+        {
+          "observed": [
+            "A3"
+          ],
+          "expected_solutions": 22
+        },
+        {
+          "observed": [
+            "E5",
+            "A3"
+          ],
+          "expected_solutions": 1
+        }
+      ]
+    }
+  ]
+}
