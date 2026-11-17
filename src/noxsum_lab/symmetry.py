@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Iterable
 
 from .rules import BOARD_SIZE, CELL_COUNT, VECTORS
@@ -59,9 +60,15 @@ def transform_values(values: Iterable[int], symmetry: str) -> tuple[int, ...]:
     source = tuple(int(value) for value in values)
     if len(source) != CELL_COUNT:
         raise ValueError(f"expected {CELL_COUNT} values, got {len(source)}")
+    return tuple(source[index] for index in _source_indices(symmetry))
+
+
+@lru_cache(maxsize=None)
+def _source_indices(symmetry: str) -> tuple[int, ...]:
+    """For each output cell, the input cell that the symmetry moves there."""
     result = [0] * CELL_COUNT
-    for index, value in enumerate(source):
-        result[transform_index(index, symmetry)] = value
+    for index in range(CELL_COUNT):
+        result[transform_index(index, symmetry)] = index
     return tuple(result)
 
 
@@ -72,6 +79,11 @@ def transform_light(light: str, symmetry: str) -> str:
 
 
 def transform_lights(lights: Iterable[str], symmetry: str) -> tuple[str, ...]:
+    return _transform_lights(tuple(lights), symmetry)
+
+
+@lru_cache(maxsize=None)
+def _transform_lights(lights: tuple[str, ...], symmetry: str) -> tuple[str, ...]:
     order = {name: index for index, name in enumerate(("TOP", "LEFT", "RIGHT", "BOTTOM"))}
     transformed = {transform_light(light, symmetry) for light in lights}
     return tuple(sorted(transformed, key=order.__getitem__))
@@ -107,21 +119,19 @@ def canonical_puzzle_signature(
     treated as the same underlying puzzle.
     """
 
-    target_tuple = tuple(int(value) for value in target)
-    mask_values = mask_rows_to_values(board_mask)
+    target_text = tuple(str(int(value)) for value in target)
+    mask_text = tuple(str(value) for value in mask_rows_to_values(board_mask))
+    if len(target_text) != CELL_COUNT or len(mask_text) != CELL_COUNT:
+        raise ValueError(f"expected {CELL_COUNT} target and mask values")
+    lights_tuple = tuple(lights)
+    prefix = f"inv={inventory[0]},{inventory[1]},{inventory[2]}|lights="
     variants: list[str] = []
     for symmetry in SYMMETRIES:
-        transformed_target = transform_values(target_tuple, symmetry)
-        transformed_mask = transform_values(mask_values, symmetry)
-        transformed_lights = transform_lights(lights, symmetry)
+        source = _source_indices(symmetry)
         variants.append(
-            "|".join(
-                (
-                    f"inv={inventory[0]},{inventory[1]},{inventory[2]}",
-                    "lights=" + ",".join(transformed_lights),
-                    "mask=" + "".join(str(value) for value in transformed_mask),
-                    "target=" + ",".join(str(value) for value in transformed_target),
-                )
-            )
+            prefix
+            + ",".join(_transform_lights(lights_tuple, symmetry))
+            + "|mask=" + "".join([mask_text[index] for index in source])
+            + "|target=" + ",".join([target_text[index] for index in source])
         )
     return min(variants)

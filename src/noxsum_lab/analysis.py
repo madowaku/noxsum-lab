@@ -7,42 +7,74 @@ from typing import Any
 from .rules import CELL_COUNT, Objects, code, shadow
 
 
+def _value_bitsets(column: tuple[int, ...]) -> dict[int, int]:
+    """Map each value in one cell column to a bitset of the worlds showing it.
+
+    Bit ``i`` is world ``i``. Each bitset is parsed in one linear pass; OR-ing
+    one bit at a time into a growing integer is quadratic in the world count.
+    """
+
+    values = set(column)
+    if not values:
+        return {}
+    if min(values) < 0 or max(values) > 255:
+        result: dict[int, int] = {}
+        for world_index, value in enumerate(column):
+            result[value] = result.get(value, 0) | (1 << world_index)
+        return result
+
+    # Reversed so that world 0 lands on the least significant bit.
+    encoded = bytes(column)[::-1]
+    result = {}
+    for value in values:
+        table = bytearray(b"0" * 256)
+        table[value] = ord("1")
+        result[value] = int(encoded.translate(bytes(table)), 2)
+    return result
+
+
 class ReasoningIndex:
     """Bitset index for clue-survivor analysis within one physical profile."""
 
     def __init__(self, worlds: list[Objects], targets: list[tuple[int, ...]]):
         if len(worlds) != len(targets):
             raise ValueError("world and target counts differ")
-        self.worlds = worlds
-        self.targets = targets
+        # worlds / targets are deliberately not retained: only the bitsets are
+        # needed afterwards, and the miner keeps one index per profile.
         self.world_count = len(worlds)
         self.all_bits = (1 << self.world_count) - 1
-
-        buckets: list[dict[int, int]] = [dict() for _ in range(CELL_COUNT)]
-        for world_index, values in enumerate(targets):
-            bit = 1 << world_index
-            for cell_index, value in enumerate(values):
-                by_value = buckets[cell_index]
-                by_value[value] = by_value.get(value, 0) | bit
-        self.buckets = buckets
+        self.buckets = [
+            _value_bitsets(column)
+            for column in (zip(*targets) if targets else [()] * CELL_COUNT)
+        ]
 
     def clue_bits(self, cell_index: int, value: int) -> int:
         return self.buckets[cell_index].get(int(value), 0)
 
     def analyze(self, target: tuple[int, ...]) -> dict[str, Any]:
-        single_counts = [
-            self.clue_bits(index, target[index]).bit_count()
+        bits = [
+            self.clue_bits(index, target[index])
             for index in range(CELL_COUNT)
         ]
+        single_counts = [item.bit_count() for item in bits]
         best_single = min(single_counts)
         median_single = float(median(single_counts))
 
         best_pair = self.world_count
         best_pair_cells: tuple[int, int] | None = None
+        # Worlds matching every clue survive any pair, so no pair can go below
+        # this floor; stop scanning once a pair reaches it.
+        full_match = self.all_bits
+        for item in bits:
+            full_match &= item
+        pair_floor = full_match.bit_count()
+
         for left in range(CELL_COUNT):
-            left_bits = self.clue_bits(left, target[left])
+            if best_pair_cells is not None and best_pair <= pair_floor:
+                break
+            left_bits = bits[left]
             for right in range(left + 1, CELL_COUNT):
-                count = (left_bits & self.clue_bits(right, target[right])).bit_count()
+                count = (left_bits & bits[right]).bit_count()
                 if count < best_pair:
                     best_pair = count
                     best_pair_cells = (left, right)
@@ -58,7 +90,7 @@ class ReasoningIndex:
             best_count = before
 
             for cell_index in unrevealed:
-                candidate_bits = remaining & self.clue_bits(cell_index, target[cell_index])
+                candidate_bits = remaining & bits[cell_index]
                 count = candidate_bits.bit_count()
                 if count < best_count:
                     best_count = count

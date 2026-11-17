@@ -217,12 +217,13 @@ def atomic_shadow(index: int, kind: str, lights: tuple[str, ...], shutter: int |
 
 def shadow(objects: Iterable[Object], lights: Iterable[str], shutter: int | None = None) -> tuple[int, ...]:
     lights_tuple = tuple(lights)
-    result = [0] * CELL_COUNT
-    for index, kind in objects:
-        atom = atomic_shadow(index, kind, lights_tuple, shutter)
-        for i, value in enumerate(atom):
-            result[i] += value
-    return tuple(result)
+    atoms = [
+        atomic_shadow(index, kind, lights_tuple, shutter)
+        for index, kind in objects
+    ]
+    if not atoms:
+        return (0,) * CELL_COUNT
+    return tuple(map(sum, zip(*atoms)))
 
 
 def pack(values: Iterable[int]) -> int:

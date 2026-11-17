@@ -11,7 +11,7 @@ from typing import Any, Iterable
 
 from .analysis import ReasoningIndex, texture_metrics
 from .generator import _edge_loss, _piece, _target_dict, generation_stage
-from .rules import object_states, packed_shadow, readable_objects, shadow
+from .rules import object_states, readable_objects, shadow
 from .scoring import score_candidate
 from .symmetry import canonical_puzzle_signature
 
@@ -150,10 +150,10 @@ def _build_level(
     }
 
 
-def _prepare_profile(
+def _profile_worlds(
     inventory: tuple[int, int, int],
     lights: tuple[str, ...],
-) -> tuple[list[Any], list[tuple[int, ...]], list[int]]:
+) -> list[Any]:
     normal, tall, plate = inventory
     template = generation_stage(
         normal=normal,
@@ -161,14 +161,21 @@ def _prepare_profile(
         plate=plate,
         lights=lights,
     )
+    return list(object_states(template))
 
-    worlds = list(object_states(template))
+
+def _prepare_profile(
+    inventory: tuple[int, int, int],
+    lights: tuple[str, ...],
+) -> tuple[list[Any], list[tuple[int, ...]], list[int]]:
+    worlds = _profile_worlds(inventory, lights)
     targets = [shadow(world, lights) for world in worlds]
-    packed = [packed_shadow(world, lights, None) for world in worlds]
-    counts = Counter(packed)
+    # Count the shadow fields themselves; packing every world again into
+    # 4-bit lanes would recompute each shadow for the same comparison.
+    counts = Counter(targets)
     unique_indices = [
-        index for index, signature in enumerate(packed)
-        if counts[signature] == 1
+        index for index, target in enumerate(targets)
+        if counts[target] == 1
     ]
     return worlds, targets, unique_indices
 
@@ -204,20 +211,26 @@ def mine_candidates(
     profile_stats: list[dict[str, Any]] = []
     profile_meta: list[dict[str, Any]] = []
     serial = 0
+    reasoning_indexes: dict[str, ReasoningIndex] = {}
 
     def append_records(
         inventory: tuple[int, int, int],
         lights: tuple[str, ...],
         pid: str,
         worlds: list[Any],
-        targets: list[tuple[int, ...]],
+        targets: Any,
         indices: list[int],
     ) -> None:
         nonlocal serial
         if not indices:
             return
 
-        reasoning_index = ReasoningIndex(worlds, targets)
+        # Building the index is the most expensive step per profile; the
+        # top-up pass below reuses it instead of rebuilding.
+        reasoning_index = reasoning_indexes.get(pid)
+        if reasoning_index is None:
+            reasoning_index = ReasoningIndex(worlds, targets)
+            reasoning_indexes[pid] = reasoning_index
         for world_index in indices:
             serial += 1
             objects = worlds[world_index]
@@ -281,6 +294,7 @@ def mine_candidates(
                 "inventory": inventory,
                 "lights": lights,
                 "profile_id": pid,
+                "shuffled_indices": unique_indices,
                 "capacity": len(unique_indices),
                 "sampled": len(selected_indices),
                 "stats": stats,
@@ -314,12 +328,14 @@ def mine_candidates(
             inventory = meta["inventory"]
             lights = meta["lights"]
             pid = meta["profile_id"]
-            worlds, targets, unique_indices = _prepare_profile(inventory, lights)
-            rng = random.Random(_stable_seed(seed, pid))
-            rng.shuffle(unique_indices)
-
+            # Reuse the shuffled order from the first pass. World lists are
+            # not kept in memory (they are large), so re-enumerate them and
+            # compute shadows only for the extra candidates.
+            unique_indices = meta["shuffled_indices"]
             start_index = meta["sampled"]
             extras = unique_indices[start_index:start_index + extra_count]
+            worlds = _profile_worlds(inventory, lights)
+            targets = {index: shadow(worlds[index], lights) for index in extras}
             append_records(inventory, lights, pid, worlds, targets, extras)
 
             added = len(extras)
